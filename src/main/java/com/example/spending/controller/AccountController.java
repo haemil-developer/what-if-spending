@@ -1,5 +1,6 @@
 package com.example.spending.controller;
 
+import com.example.spending.domain.account.service.AccountReadService;
 import com.example.spending.domain.account.service.AccountWriteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/accounts")
 @RequiredArgsConstructor
 public class AccountController {
+    private final AccountReadService accountReadService;
     private final AccountWriteService accountWriteService;
 
     @PostMapping("/{userId}")
