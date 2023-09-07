@@ -4,7 +4,9 @@ import com.example.spending.domain.account.entity.ClientId;
 import com.example.spending.domain.token.entity.Symbol;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -16,8 +18,8 @@ import java.time.Instant;
 @Entity
 @Table(name = "transaction")
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Transaction {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -61,62 +63,17 @@ public class Transaction {
     @JsonIgnore
     private String lastModifiedBy;
 
-    public void setUserId(Long userId) {
+    public Transaction(Long userId, ClientId clientId, Type type, String title, String description, Symbol symbol, BigDecimal amount, String createdBy) {
         this.userId = userId;
-    }
-
-    public void setClientId(ClientId clientId) {
         this.clientId = clientId;
-    }
-
-    public void setType(Type type) {
         this.type = type;
-    }
-
-    public void setTitle(String title) {
         this.title = title;
-    }
-
-    public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void setSymbol(Symbol symbol) {
         this.symbol = symbol;
-    }
-
-    public void setAmount(BigDecimal amount) {
         this.amount = amount;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public void setCreatedBy(String createdBy) {
+        this.createdAt = Instant.now();
         this.createdBy = createdBy;
-    }
-
-    public void setLastModifiedAt(Instant lastModifiedAt) {
-        this.lastModifiedAt = lastModifiedAt;
-    }
-
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
-    public static Transaction create(Long userId, ClientId clientId, Type type, String title, String description, Symbol symbol, BigDecimal amount, String createdBy) {
-        Transaction transaction = new Transaction();
-        transaction.setUserId(userId);
-        transaction.setClientId(clientId);
-        transaction.setTitle(title);
-        transaction.setDescription(description);
-        transaction.setSymbol(symbol);
-        transaction.setAmount(amount);
-        transaction.setCreatedAt(Instant.now());
-        transaction.setCreatedBy(createdBy);
-        transaction.setLastModifiedAt(Instant.now());
-        transaction.setLastModifiedBy(createdBy);
-        return transaction;
+        this.lastModifiedAt = Instant.now();
+        this.lastModifiedBy = createdBy;
     }
 }

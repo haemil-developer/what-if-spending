@@ -3,7 +3,9 @@ package com.example.spending.domain.account.entity;
 import com.example.spending.domain.token.entity.Symbol;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -16,6 +18,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "account")
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,48 +56,14 @@ public class Account {
     @JsonIgnore
     private String lastModifiedBy;
 
-    private void setUserId(Long userId) {
+    public Account(Long userId, ClientId clientId, Symbol symbol, String createdBy) {
         this.userId = userId;
-    }
-
-    private void setClientId(ClientId clientId) {
         this.clientId = clientId;
-    }
-
-    private void setSymbol(Symbol symbol) {
         this.symbol = symbol;
-    }
-
-    private void setBalance(BigDecimal balance) {
-        this.balance = balance;
-    }
-
-    private void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    private void setCreatedBy(String createdBy) {
+        this.balance = BigDecimal.ZERO;
+        this.createdAt = Instant.now();
         this.createdBy = createdBy;
-    }
-
-    private void setLastModifiedAt(Instant lastModifiedAt) {
-        this.lastModifiedAt = lastModifiedAt;
-    }
-
-    private void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
-    public static Account create(Long userId, ClientId clientId, Symbol symbol, String createdBy) {
-        Account account = new Account();
-        account.setUserId(userId);
-        account.setClientId(clientId);
-        account.setSymbol(symbol);
-        account.setBalance(BigDecimal.ZERO);
-        account.setCreatedAt(Instant.now());
-        account.setCreatedBy(createdBy);
-        account.setLastModifiedAt(Instant.now());
-        account.setLastModifiedBy(createdBy);
-        return account;
+        this.lastModifiedAt = Instant.now();
+        this.lastModifiedBy = createdBy;
     }
 }

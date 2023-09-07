@@ -14,11 +14,11 @@ public class TokenSupplyRecordWriteService {
     private final TokenSupplyRecordRepository tokenSupplyRecordRepository;
 
     public Long createTokenSupplyRecord(CreateTokenSupplyRecordCommand command) {
-        TokenSupplyRecord tokenSupplyRecord = TokenSupplyRecord.create(
+        TokenSupplyRecord tokenSupplyRecord = new TokenSupplyRecord(
                 command.clientId(),
                 command.symbol(),
-                command.type(),
                 command.amount(),
+                command.type(),
                 command.preSupply(),
                 command.transactionId(),
                 command.createdBy()

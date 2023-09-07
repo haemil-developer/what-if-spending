@@ -4,17 +4,19 @@ import com.example.spending.domain.account.entity.ClientId;
 import com.example.spending.domain.transaction.entity.Type;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.Objects;
 
 @Entity
 @Table(name = "token_supply_record")
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TokenSupplyRecord {
     @Id
     @GeneratedValue
@@ -50,53 +52,15 @@ public class TokenSupplyRecord {
     @JsonIgnore
     private String createdBy;
 
-    private void setClientId(ClientId clientId) {
+    public TokenSupplyRecord(ClientId clientId, Symbol symbol, BigDecimal amount, Type type, BigDecimal preSupply, Long transactionId, String createdBy) {
         this.clientId = clientId;
-    }
-
-    private void setSymbol(Symbol symbol) {
         this.symbol = symbol;
-    }
-
-    private void setAmount(BigDecimal amount) {
         this.amount = amount;
-    }
-
-    private void setType(Type type) {
         this.type = type;
-    }
-
-    private void setPreSupply(BigDecimal preSupply) {
         this.preSupply = preSupply;
-    }
-
-    private void setPostSupply(BigDecimal postSupply) {
-        this.postSupply = postSupply;
-    }
-
-    private void setTransactionId(Long transactionId) {
+        this.postSupply = type == Type.DEPOSIT ? preSupply.add(amount) : preSupply.subtract(amount);
         this.transactionId = transactionId;
-    }
-
-    private void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    private void setCreatedBy(String createdBy) {
+        this.createdAt = Instant.now();
         this.createdBy = createdBy;
-    }
-
-    public static TokenSupplyRecord create(ClientId clientId, Symbol symbol, Type type, BigDecimal amount, BigDecimal preSupply, Long transactionId, String createdBy) {
-        TokenSupplyRecord record = new TokenSupplyRecord();
-        record.setClientId(Objects.requireNonNull(clientId));
-        record.setSymbol(Objects.requireNonNull(symbol));
-        record.setType(Objects.requireNonNull(type));
-        record.setAmount(Objects.requireNonNull(amount));
-        record.setPreSupply(Objects.requireNonNull(preSupply));
-        record.setPostSupply(type == Type.DEPOSIT ? preSupply.add(amount) : preSupply.subtract(amount));
-        record.setTransactionId(Objects.requireNonNull(transactionId));
-        record.setCreatedAt(Instant.now());
-        record.setCreatedBy(createdBy);
-        return record;
     }
 }

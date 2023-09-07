@@ -3,7 +3,6 @@ package com.example.spending.domain.account.service;
 import com.example.spending.domain.account.entity.Account;
 import com.example.spending.domain.account.entity.ClientId;
 import com.example.spending.domain.account.repository.AccountRepository;
-import com.example.spending.domain.token.dto.TokenDto;
 import com.example.spending.domain.token.entity.Network;
 import com.example.spending.domain.token.service.TokenReadService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,7 @@ public class AccountWriteService {
         List<Account> accounts = tokenReadService.getTokens(null)
                 .stream()
                 .filter(tokenDto -> tokenDto.network() == Network.LOCAL)
-                .map(tokenDto -> Account.create(userId, clientId, tokenDto.symbol(), "system"))
+                .map(tokenDto -> new Account(userId, clientId, tokenDto.symbol(), "system"))
                 .collect(Collectors.toList());
         accountRepository.saveAll(accounts);
     }

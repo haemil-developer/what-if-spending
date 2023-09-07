@@ -13,6 +13,7 @@ public record CreateTransactionCommand(
         String title,
         String description,
         Symbol symbol,
-        BigDecimal amount
+        BigDecimal amount,
+        String createdBy
 ) {
 }

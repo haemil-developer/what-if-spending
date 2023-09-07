@@ -13,7 +13,7 @@ public class TokenWriteService {
     private final TokenRepository tokenRepository;
 
     public void createToken(CreateTokenCommand command) {
-        Token token = Token.create(
+        Token token = new Token(
                 command.symbol(),
                 command.name(),
                 command.network(),
@@ -28,7 +28,6 @@ public class TokenWriteService {
 
     public void updateToken(Long id, UpdateTokenCommand command) {
         Token token = tokenRepository.findById(id).orElseThrow(RuntimeException::new);
-        token.setLogoUrl(command.logoUrl());
-        token.setActivate(command.activate());
+        token.update(command.logoUrl(), command.activate());
     }
 }

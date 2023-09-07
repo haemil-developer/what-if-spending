@@ -15,7 +15,7 @@ public class TransactionWriteService {
     private final TransactionRepository transactionRepository;
 
     public void createTransaction(Type type, CreateTransactionCommand command) {
-        Transaction transaction = Transaction.create(
+        Transaction transaction = new Transaction(
                 command.userId(),
                 command.clientId(),
                 type,
@@ -23,7 +23,7 @@ public class TransactionWriteService {
                 command.description(),
                 command.symbol(),
                 command.amount(),
-                "createdBy");
+                command.createdBy());
         transactionRepository.save(transaction);
     }
 }
