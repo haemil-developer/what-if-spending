@@ -25,6 +25,6 @@ public class TransactionReadService {
     }
 
     private TransactionDto toDto(Transaction transaction) {
-        return new TransactionDto(transaction.getId(), transaction.getUserId(), transaction.getClientId(), transaction.getType(), transaction.getTitle(), transaction.getDescription(), transaction.getSymbol(), transaction.getAmount(),transaction.getCreatedBy());
+        return new TransactionDto(transaction.getId(), transaction.getClientId(), transaction.getAccount().getId(), transaction.getAccount().getUserId(), transaction.getType(), transaction.getTitle(), transaction.getDescription(), transaction.getSymbol(), transaction.getAmount(),transaction.getCreatedBy());
     }
 }

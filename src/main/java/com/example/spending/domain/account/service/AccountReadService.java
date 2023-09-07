@@ -4,6 +4,7 @@ import com.example.spending.domain.account.dto.AccountDto;
 import com.example.spending.domain.account.entity.Account;
 import com.example.spending.domain.account.entity.ClientId;
 import com.example.spending.domain.account.repository.AccountRepository;
+import com.example.spending.domain.token.entity.Symbol;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,12 @@ public class AccountReadService {
                .stream()
                .map(this::toDto)
                .collect(Collectors.toList());
+    }
+
+    public AccountDto getUserAccount(Long userId, Symbol symbol, ClientId clientId) {
+        return accountRepository.findByUserIdAndSymbolAndClientId(userId, symbol, clientId)
+                .map(this::toDto)
+                .orElseThrow(RuntimeException::new);
     }
 
     private AccountDto toDto(Account account) {

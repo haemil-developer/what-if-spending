@@ -6,7 +6,7 @@ import com.example.spending.domain.token.entity.Symbol;
 import java.math.BigDecimal;
 
 public record AccountDto(
-        Long Id,
+        Long id,
         Long userId,
         ClientId clientId,
         Symbol symbol,
