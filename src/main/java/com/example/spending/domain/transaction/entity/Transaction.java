@@ -1,5 +1,6 @@
 package com.example.spending.domain.transaction.entity;
 
+import com.example.spending.domain.account.entity.Account;
 import com.example.spending.domain.account.entity.ClientId;
 import com.example.spending.domain.token.entity.Symbol;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,12 +25,14 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "client_id")
     private ClientId clientId;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id")
+    private Account account;
 
     @Enumerated(EnumType.STRING)
     private Type type;
@@ -63,9 +66,9 @@ public class Transaction {
     @JsonIgnore
     private String lastModifiedBy;
 
-    public Transaction(Long userId, ClientId clientId, Type type, String title, String description, Symbol symbol, BigDecimal amount, String createdBy) {
-        this.userId = userId;
+    public Transaction(ClientId clientId, Account account, Type type, String title, String description, Symbol symbol, BigDecimal amount, String createdBy) {
         this.clientId = clientId;
+        this.account = type == Type.DEPOSIT ? account.deposit(amount) : account.withdrawal(amount);
         this.type = type;
         this.title = title;
         this.description = description;

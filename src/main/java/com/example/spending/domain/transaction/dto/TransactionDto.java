@@ -8,8 +8,9 @@ import java.math.BigDecimal;
 
 public record TransactionDto(
         Long id,
-        Long userId,
         ClientId clientId,
+        Long accountId,
+        Long userId,
         Type type,
         String title,
         String description,

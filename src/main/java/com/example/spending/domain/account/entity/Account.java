@@ -66,4 +66,14 @@ public class Account {
         this.lastModifiedAt = Instant.now();
         this.lastModifiedBy = createdBy;
     }
+
+    public Account deposit(BigDecimal amount) {
+        this.balance = this.balance.add(amount);
+        return this;
+    }
+
+    public Account withdrawal(BigDecimal amount) {
+        this.balance = this.balance.subtract(amount);
+        return this;
+    }
 }

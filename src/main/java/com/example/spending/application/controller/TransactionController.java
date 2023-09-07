@@ -20,12 +20,12 @@ public class TransactionController {
 
     @PostMapping("/pay")
     public void pay(@RequestBody CreateTransactionCommand command) {
-        transactionWriteService.createTransaction(Type.WITHDRAWAL, command);
+        transactionWriteService.save(command);
     }
 
     @PostMapping("/reward")
     public void reward(@RequestBody CreateTransactionCommand command) {
-        transactionWriteService.createTransaction(Type.DEPOSIT, command);
+        transactionWriteService.save(command);
     }
 
     @GetMapping("/users/{userId}/clients/{clientId}")
