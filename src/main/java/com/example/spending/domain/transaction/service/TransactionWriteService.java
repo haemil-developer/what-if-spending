@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TransactionWriteService {
     private final TransactionRepository transactionRepository;
 
-    public void createTransaction(Type type, CreateTransactionCommand command) {
+    public void save(Type type, CreateTransactionCommand command) {
         Transaction transaction = new Transaction(
                 command.userId(),
                 command.clientId(),
